@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { map, Observable, tap } from 'rxjs'
 
 import { environment } from 'src/environments/environment' //path to your environment files
 
@@ -16,9 +15,6 @@ export class ConfigService {
       if (environment.production) this._file = 'production'
       console.log(this._file)
       this._httpClient.get('./assets/config/' + this._file + '.json')
-        .pipe(
-          // tap(res => res.json())
-        )
         .subscribe({
           next: (data: any) => {
             this._config = data
@@ -35,12 +31,9 @@ export class ConfigService {
   isDevmode() {
     return this._file === 'development'
   }
-
-  // Gets API route based on the provided key
   getApi(key: string): string {
     return this._config["API_ENDPOINTS"][key]
   }
-  // Gets a value of specified property in the configuration file
   get(key: any) {
     return this._config[key]
   }
